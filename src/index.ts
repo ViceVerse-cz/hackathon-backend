@@ -1,13 +1,24 @@
+import Logger from '@ptkdev/logger';
+import mongoose from 'mongoose';
 import express from 'express';
-import dotenv from 'dotenv';
+import fs from 'node:fs';
+import yaml from 'yaml';
 
-dotenv.config({
-    path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env',
-});
+const LOGGER = new Logger();
+const CONFIG = yaml.parse(
+    fs.readFileSync('./config.yaml', 'utf8')
+);
 
 const app = express();
 
-const PORT: number = parseInt(process.env.PORT || "3000");
-app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server started at http://localhost:${PORT}`);
+mongoose.connect(CONFIG.DATABASE.uri)
+    .then(() => {
+        LOGGER.info('Connected to database');
+    })
+    .catch((err) => {
+        LOGGER.error(err);
+    });
+
+app.listen(CONFIG.HOST.port, CONFIG.HOST.hostname, () => {
+    LOGGER.info(`Server running at http://${CONFIG.HOST.hostname}:${CONFIG.HOST.port}/`);
 });

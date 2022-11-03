@@ -2,11 +2,11 @@
   "name": "express-backend",
   "version": "1.0.0",
   "description": "Hackathon express backend",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
     "start:dev": "ts-node-dev --respawn --transpile-only .",
-    "start:prod": "tsc && node /dist/index.js",
+    "start:prod": "tsc && node .",
     "build": "tsc"
   },
   "dependencies": {

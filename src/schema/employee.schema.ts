@@ -38,7 +38,7 @@ const employeeSchema = new mongoose.Schema<EmployeeI>({
 });
 
 employeeSchema.virtual("avatar").get(function() {
-    return `https://avatars.dicebear.com/api/initials/${this.email.slice(0, 2)}${md5(this.email.toString())}}.svg`;
+    return `https://avatars.dicebear.com/api/initials/${this.email.slice(0, 2)}${md5(this.email.toString())}.svg`;
 });
 
 export const Employee = mongoose.model<EmployeeI>(

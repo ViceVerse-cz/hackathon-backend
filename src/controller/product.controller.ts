@@ -1,4 +1,4 @@
-import { addVariant, changeVariantCount, createProduct, fetchProduct } from "../service/product.service";
+import { addVariant, changeVariantCount, createProduct, deleteVariant, fetchProduct } from "../service/product.service";
 import validationMiddleware from "../middleware/validation.middleware";
 import jwtMiddleware from "../middleware/jwt.middleware";
 import { Router } from "express";
@@ -20,6 +20,10 @@ router.post('/addVariant', jwtMiddleware, async (req, res) => {
     if(validationMiddleware(req, res, addVariantValidation)) {
         return addVariant(req, res);
     }
+});
+
+router.delete('/deleteVariant', jwtMiddleware, async (req, res) => {
+    return deleteVariant(req, res);
 });
 
 router.post('/changeVariantCount', jwtMiddleware, async (req, res) => {

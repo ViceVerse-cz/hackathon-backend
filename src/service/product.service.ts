@@ -3,6 +3,37 @@ import { Variant } from "../schema/variant.schema";
 import { Request, Response } from "express";
 import { Schema, Types } from "mongoose";
 
+export const deleteVariant = async (req: Request, res: Response) => {
+    if(!req.params.variantId || !req.params.productId) return res.status(400)
+        .json({
+            message: "Please specify variant and product id!",
+            statusCode: 400
+        })
+        .end();
+
+    await Variant.findByIdAndDelete(req.params.variantId);
+
+    const product = await Product.findById(req.params.productId);
+    if(!product) return res.status(404)
+        .json({
+            message: "Product not found!",
+            statusCode: 404
+        })
+        .end();
+
+    product.variants = product.variants.filter(
+        (variant: Schema.Types.ObjectId) => variant.toString() !== req.params.variantId
+    );
+    await product.save();
+
+    return res.status(200)  
+        .json({
+            message: "Variant deleted!",
+            statusCode: 200
+        })
+        .end();
+};
+
 export const changeVariantCount = async (req: Request, res: Response) => {
     const found = await Variant.findById(req.body.variantId);
     if(!found) {

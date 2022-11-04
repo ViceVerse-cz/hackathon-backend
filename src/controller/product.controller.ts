@@ -1,4 +1,4 @@
-import { addVariant, changeVariantCount, createProduct, deleteVariant, fetchProduct } from "../service/product.service";
+import { addVariant, changeVariantCount, createProduct, deleteVariant, fetchProduct, searchProducts } from "../service/product.service";
 import validationMiddleware from "../middleware/validation.middleware";
 import jwtMiddleware from "../middleware/jwt.middleware";
 import { Router } from "express";
@@ -35,5 +35,9 @@ router.post('/changeVariantCount', jwtMiddleware, async (req, res) => {
 router.get('/fetch/:id', async (req, res) => {
     return fetchProduct(req, res);
 });
+
+router.get('/search/:query', async (req, res) => {
+    return searchProducts(req, res);
+})
 
 export default router;

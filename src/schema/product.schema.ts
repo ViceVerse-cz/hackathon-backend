@@ -28,6 +28,8 @@ const productSchema = new Schema<ProductI>({
     }
 });
 
+productSchema.index({'$**': 'text'});
+
 export const Product = model<ProductI>(
     "Product",
     productSchema

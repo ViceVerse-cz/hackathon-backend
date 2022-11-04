@@ -109,7 +109,7 @@ export const createProduct = async (req: Request, res: Response) => {
         description: req.body.description,
         variants: finalVariants
     });
-    newP.save();
+    await newP.save();
 
     return res.status(200)
         .json({
@@ -148,3 +148,49 @@ export const addVariant = async (req: Request, res: Response) => {
         })
         .end();
 };
+
+export const searchProducts = async (req: Request, res: Response) => {
+    if(!req.params.query) {
+        return res.status(400).json({
+            statusCode: 400,
+            message: "Invalid query!"
+        });
+    };
+
+    const found = await Product.find({
+        $or: [
+            {
+                name: { 
+                    $regex: req.params.query, 
+                    $options: "i" 
+                },
+            },
+            {
+                description: { 
+                    $regex: req.params.query, 
+                    $options: "i" 
+                },
+            }
+        ],
+        // Pozdeji
+        // location: {
+        //     $near: {
+        //         $geometry: {
+        //             type: "Point",
+        //             coordinates: [req.body.lon, req.body.lat]
+        //         },
+        //         $maxDistance: 1000
+        //     }
+        // }
+    });
+
+    return res.status(200)
+        .json({
+            statusCode: 200,
+            message: "Search products success!",
+            data: {
+                products: found
+            }
+        })
+        .end();
+}

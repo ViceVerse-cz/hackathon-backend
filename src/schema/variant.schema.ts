@@ -19,7 +19,7 @@ const variantSchema = new Schema<VariantI>({
     }
 });
 
-export const variantModel = model<VariantI>(
+export const Variant = model<VariantI>(
     "Variant", 
     variantSchema
 );

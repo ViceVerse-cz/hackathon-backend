@@ -13,10 +13,15 @@ export default (
     res: Response, 
     schema: Schema
 ) => {
-    console.log(req.body);
-    if(!req.body) returnInvalid(res, "Please specify request body!");
+    if(!req.body) returnInvalid(
+        res, 
+        "Please specify request body!"
+    );
 
     const validation = schema.validate(req.body);
 
-    if(validation.error) returnInvalid(res, validation.error.message);
+    if(validation.error) returnInvalid(
+        res, 
+        validation.error.message
+    );
 }

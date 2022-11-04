@@ -20,7 +20,9 @@
     "joi": "^17.7.0",
     "jsonwebtoken": "^8.5.1",
     "md5": "^2.3.0",
-    "mongoose": "^6.7.1"
+    "mongoose": "^6.7.1",
+    "swagger-jsdoc": "^6.2.5",
+    "swagger-ui-express": "^4.5.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",

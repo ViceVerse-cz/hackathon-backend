@@ -3,9 +3,11 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 // Routes
 import employeeRoute from './controller/employee.controller';
+import buildingRoute from './controller/building.controller';
 
 dotenv.config({
     path: './.env',
@@ -16,9 +18,12 @@ const PORT = parseInt(process.env.PORT || "3000");
 
 const app = express();
 
+app.use(cors());
+
 app.use(bodyParser.json({ type: 'application/json' }));
 app.use(bodyParser.raw({ type: 'application/vnd.custom-type' }));
 
+app.use('/api/building', buildingRoute);
 app.use('/api/employee', employeeRoute);
 
 // Database connect

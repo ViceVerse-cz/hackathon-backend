@@ -52,7 +52,7 @@ const buildingSchema = new Schema<BuildingI>({
     }
 });
 
-export const BuildingModel = model<BuildingI>(
+export const Building = model<BuildingI>(
     "Building",
     buildingSchema
 );

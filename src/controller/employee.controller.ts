@@ -23,7 +23,7 @@ router.get('/@me', jwtMiddleware, async(req: Request, res: Response) => {
         message: "Hello world!",
         statusCode: 200,
         data: {
-            user: req.employee
+            employee: req.employee
         }
     });
 });

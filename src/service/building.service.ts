@@ -72,7 +72,12 @@ export const fetchBuilding = async (req: Request, res: Response) => {
 };
 
 export const fetchBuildings = async (req: Request, res: Response) => {
-    const buildings = await Building.find({}, { lat: 1, long: 1 });
+    const buildings = await Building.find({}, { 
+        lat: 1, 
+        long: 1, 
+        name: 1, 
+        state: 1 
+    });
 
     return res.status(200)
         .json({

@@ -171,17 +171,7 @@ export const searchProducts = async (req: Request, res: Response) => {
                     $options: "i" 
                 },
             }
-        ],
-        // Pozdeji
-        // location: {
-        //     $near: {
-        //         $geometry: {
-        //             type: "Point",
-        //             coordinates: [req.body.lon, req.body.lat]
-        //         },
-        //         $maxDistance: 1000
-        //     }
-        // }
+        ]
     });
 
     return res.status(200)

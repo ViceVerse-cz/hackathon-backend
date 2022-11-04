@@ -60,12 +60,28 @@ export const fetchBuilding = async (req: Request, res: Response) => {
     await building.populate("floors.warehouse");
     await building.populate("floors.shop");
 
+    let productCount = 0;
+    let productMissing = 0;
+
+    for(let i = 0; i < building.floors.length; i++) {
+        const floor = building.floors[i];
+        if((<any>floor).warehouse) {
+            for(let j = 0; j < (<any>floor).warehouse.products.length; j++) {
+                const product = (<any>floor).warehouse.products[j];
+                productCount += product.quantity;
+                if(product.quantity === 0) productMissing++;
+            }
+        }
+    }
+
     return res.status(200)
         .json({
             statusCode: 200,
             message: "Fetch building success!",
             data: {
-                building: building
+                building: building,
+                productCount: productCount,
+                productMissing: productMissing
             }
         })
         .end();

@@ -18,7 +18,10 @@ const PORT = parseInt(process.env.PORT || "3000");
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: process.env.CORS_ORIGIN,
+    preflightContinue: true
+}));
 
 app.use(bodyParser.json({ type: 'application/json' }));
 app.use(bodyParser.raw({ type: 'application/vnd.custom-type' }));

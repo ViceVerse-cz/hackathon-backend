@@ -1,8 +1,9 @@
-import { createBuildingSchema } from "../validation/building.validation";
+import { changeBuildingStateSchema, createBuildingSchema } from "../validation/building.validation";
 import validation from "../middleware/validation.middleware";
 import jwtMiddleware from "../middleware/jwt.middleware";
 import { Router } from "express";
 import { 
+    changeBuildingState,
     createBuilding, 
     fetchBuilding, 
     fetchBuildings 
@@ -15,6 +16,12 @@ router.post("/create", jwtMiddleware, async (req, res) => {
         return createBuilding(req, res);
     };
 });
+
+router.post("/state", jwtMiddleware, async (req, res) => {
+    if(validation(req, res, changeBuildingStateSchema)) {
+        return changeBuildingState(req, res);
+    };
+})
 
 router.get("/fetch/:id", async (req, res) => {
     return fetchBuilding(req, res);

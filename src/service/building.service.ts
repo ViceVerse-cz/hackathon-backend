@@ -17,6 +17,28 @@ export const createBuilding = async (req: Request, res: Response) => {
         .end();
 }
 
+export const changeBuildingState = async (req: Request, res: Response) => {
+    const found = await Building.findById(req.body.building);
+    if(!found) return res.status(404).json({
+        statusCode: 404,
+        message: "Building not found!"
+    });
+
+    found.state = req.body.state;
+    found.save();
+
+    return res.status(200)
+        .json({
+            statusCode: 200,
+            message: "Change state success!",
+            data: {
+                building: found
+            }
+        })
+        .end();
+
+}
+
 export const fetchBuilding = async (req: Request, res: Response) => {
     if(!isValidObjectId(req.params.id)) {
         return res.status(400)

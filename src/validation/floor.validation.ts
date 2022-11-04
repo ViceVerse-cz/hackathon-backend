@@ -2,7 +2,7 @@ import Joi from "joi";
 
 export const createFloorValidation = Joi.object({
     type: Joi.string().required().valid("Warehouse", "Shop"),
-    building: Joi.string().required().custom((value, helpers) => {
+    building: Joi.string().required().custom((value, _helpers) => {
         if(value.match(/^[0-9a-fA-F]{24}$/)) {
             return value;
         }

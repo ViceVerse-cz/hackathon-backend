@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import { Floor } from "./floor.schema";
 
 export enum BuildingState {
     ACTIVE = 1,

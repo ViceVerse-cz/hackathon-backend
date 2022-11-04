@@ -1,20 +1,25 @@
 import { Schema, model } from "mongoose";
 
 export enum FloorType {
-    OFFICE = 1,
-    MEETING_ROOM = 2,
-    WAREHAUSE = 3,
-    SHOP = 4
-}
+    WAREHOUSE = "Warehouse",
+    SHOP = "Shop"
+};
 
 export interface FloorI {
     type: FloorType,
+    object: Schema.Types.ObjectId
 };
 
 const floorSchema = new Schema<FloorI>({
     type: {
-        type: Number,
+        type: String,
         required: true
+    },
+
+    object: {
+        type: Schema.Types.ObjectId,
+        required: true,
+        refPath: "type"
     }
 });
 

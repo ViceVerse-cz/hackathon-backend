@@ -1,4 +1,3 @@
-import { FloorType } from "./floor.schema";
 import { Schema, model } from "mongoose";
 
 export enum BuildingState {
@@ -11,7 +10,7 @@ export interface BuildingI {
     name: String,
     state: BuildingState,
     address: String,
-    floors: [FloorType],
+    floors: [Schema.Types.ObjectId],
     lat: Number,
     long: Number
 }
@@ -19,14 +18,14 @@ export interface BuildingI {
 const buildingSchema = new Schema<BuildingI>({
     name: {
         type: String,
-        required: true,
+        default: "New Building",
         min: 2,
         max: 64
     },
 
     state: {
         type: Number,
-        required: true
+        default: BuildingState.ACTIVE
     },
 
     address: {
@@ -37,8 +36,9 @@ const buildingSchema = new Schema<BuildingI>({
     },
 
     floors: {
-        type: [Number],
-        required: true
+        type: [Schema.Types.ObjectId],
+        ref: "Floor",
+        default: []
     },
 
     lat: {

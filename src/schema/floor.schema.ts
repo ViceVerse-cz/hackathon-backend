@@ -1,3 +1,5 @@
+import { Schema, model } from "mongoose";
+
 export enum FloorType {
     OFFICE = 1,
     MEETING_ROOM = 2,
@@ -8,3 +10,15 @@ export enum FloorType {
 export interface FloorI {
     type: FloorType,
 };
+
+const floorSchema = new Schema<FloorI>({
+    type: {
+        type: Number,
+        required: true
+    }
+});
+
+export const Floor = model<FloorI>(
+    "Floor",
+    floorSchema
+);

@@ -18,7 +18,6 @@ const InvalidToken = (res: Response) => {
 export default async (req: Request, res: Response, next: NextFunction) => {
     const token = req.header("authorization");
     if(!token) {
-        console.log("Sent");
         return NotAuthorized(res);
     }
 
@@ -27,7 +26,6 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         req.employee = verified;
         next();
     } catch (error) {
-        console.log("Sent");
         return InvalidToken(res);
     }
 }

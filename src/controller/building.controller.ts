@@ -11,10 +11,9 @@ import {
 const router = Router();
 
 router.post("/create", jwtMiddleware, async (req, res) => {
-    const valid = validation(req, res, createBuildingSchema);
     if(validation(req, res, createBuildingSchema)) {
         return createBuilding(req, res);
-    }
+    };
 });
 
 router.get("/fetch/:id", async (req, res) => {

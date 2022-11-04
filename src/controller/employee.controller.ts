@@ -6,13 +6,15 @@ import { Router, Request, Response } from 'express';
 const router = Router();
 
 router.post('/register', async(req: Request, res: Response) => {
-    validation(req, res, registerSchema);
-    return registerUser(req, res);
+    if(validation(req, res, registerSchema)) {
+        return registerUser(req, res);
+    };
 });
 
 router.post('/login', async(req: Request, res: Response) => {
-    validation(req, res, loginSchema);
-    return loginUser(req, res);
+    if(validation(req, res, loginSchema)) {
+        return loginUser(req, res);
+    }
 });
 
 export default router;

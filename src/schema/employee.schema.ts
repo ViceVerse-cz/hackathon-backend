@@ -33,13 +33,7 @@ const employeeSchema = new mongoose.Schema<EmployeeI>({
         type: String,
         required: true,
         max: 512
-    },
-
-    phone: {
-        type: String,
-        required: true,
-        max: 36
-    },
+    }
 });
 
 export const Employee = mongoose.model<EmployeeI>(

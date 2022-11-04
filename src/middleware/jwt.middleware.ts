@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import { Employee } from '../schema/employee.schema';
 import { verify } from 'jsonwebtoken';
 
 const NotAuthorized = (res: Response) => {
@@ -23,7 +24,9 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 
     try {
         const verified = verify(token, process.env.JWT_SECRET || "");
-        req.employee = verified;
+
+        req.employee = await Employee.findById((verified as any)._id);
+
         next();
     } catch (error) {
         return InvalidToken(res);

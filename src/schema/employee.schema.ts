@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import md5 from 'md5';
 
 export interface EmployeeI {
     name: String,
@@ -34,6 +35,10 @@ const employeeSchema = new mongoose.Schema<EmployeeI>({
         required: true,
         max: 512
     }
+});
+
+employeeSchema.virtual("avatar").get(function() {
+    return `https://avatars.dicebear.com/api/initials/${this.email.slice(0, 2)}${md5(this.email.toString())}}.svg`;
 });
 
 export const Employee = mongoose.model<EmployeeI>(

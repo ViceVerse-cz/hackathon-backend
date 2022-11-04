@@ -1,6 +1,7 @@
 import { registerSchema, loginSchema } from '../validation/employee.validation';
 import { loginUser, registerUser } from '../service/employee.service';
 import validation from '../middleware/validation.middleware'; 
+import jwtMiddleware from '../middleware/jwt.middleware';
 import { Router, Request, Response } from 'express';
 
 const router = Router();
@@ -17,7 +18,7 @@ router.post('/login', async(req: Request, res: Response) => {
     }
 });
 
-router.get('/@me', async(req: Request, res: Response) => {
+router.get('/@me', jwtMiddleware, async(req: Request, res: Response) => {
     return res.status(200).json({
         message: "Hello world!",
         statusCode: 200,

@@ -24,8 +24,13 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 
     try {
         const verified = verify(token, process.env.JWT_SECRET || "");
+        const found = await Employee.findById((verified as any)._id);
 
-        req.employee = await Employee.findById((verified as any)._id);
+        if(!found) {
+            return NotAuthorized(res);
+        }
+
+        req.employee = found;
 
         next();
     } catch (error) {

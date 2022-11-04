@@ -3,7 +3,7 @@ import { Building } from "../schema/building.schema";
 import { Shop, ShopI } from "../schema/shop.schema";
 import { Floor } from "../schema/floor.schema";
 import { Request, Response } from "express";
-import { Document, Types } from "mongoose";
+import { Document, Schema, Types } from "mongoose";
 
 export const createFloorService = async (req: Request, res: Response) => {
     // Find building and check if it exists
@@ -27,7 +27,9 @@ export const createFloorService = async (req: Request, res: Response) => {
     });
     newF.save();
 
-    foundBuilding.floors.push(new Types.ObjectId(newF._id));
+    foundBuilding.floors.push(
+        new Schema.Types.ObjectId(newF._id.toString())
+    );
     foundBuilding.save();
 
     res.status(200).json({

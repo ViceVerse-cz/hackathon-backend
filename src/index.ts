@@ -8,6 +8,7 @@ import cors from 'cors';
 // Routes
 import employeeRoute from './controller/employee.controller';
 import buildingRoute from './controller/building.controller';
+import floorRoute from './controller/floor.controller';
 
 dotenv.config({
     path: './.env',
@@ -28,6 +29,7 @@ app.use(bodyParser.raw({ type: 'application/vnd.custom-type' }));
 
 app.use('/api/building', buildingRoute);
 app.use('/api/employee', employeeRoute);
+app.use('/api/floor', floorRoute);
 
 // Database connect
 mongoose.connect(process.env.MONGO_URI || "")

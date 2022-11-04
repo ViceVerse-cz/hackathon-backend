@@ -1,7 +1,30 @@
 import { Product } from "../schema/product.schema";
-import { Variant, VariantI } from "../schema/variant.schema";
+import { Variant } from "../schema/variant.schema";
 import { Request, Response } from "express";
 import { Schema, Types } from "mongoose";
+
+export const changeVariantCount = async (req: Request, res: Response) => {
+    const found = await Variant.findById(req.body.variantId);
+    if(!found) {
+        return res.status(404).json({
+            statusCode: 404,
+            message: "Variant not found!"
+        });
+    };
+
+    found.count = req.body.count;
+    found.save();
+
+    return res.status(200)
+        .json({
+            statusCode: 200,
+            message: "Change variant count success!",
+            data: {
+                variant: found
+            }
+        })
+        .end();
+};
 
 export const fetchProduct = async (req: Request, res: Response) => {
     if(!req.params.id) return res.status(400).json({
@@ -40,6 +63,7 @@ export const createProduct = async (req: Request, res: Response) => {
             const newV = new Variant({
                 name: element.name,
                 price: element.price,
+                count: 0
             });
 
             // @ts-ignore

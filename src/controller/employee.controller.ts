@@ -19,12 +19,14 @@ router.post('/login', async(req: Request, res: Response) => {
 });
 
 router.get('/@me', jwtMiddleware, async(req: Request, res: Response) => {
-    console.log(req.employee.avatar);
+    let empl = req.employee;
+    empl['avatar'] = req.employee['avatar'];
+
     return res.status(200).json({
         message: "Hello world!",
         statusCode: 200,
         data: {
-            employee: req.employee
+            employee: empl
         }
     });
 });

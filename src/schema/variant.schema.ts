@@ -2,7 +2,8 @@ import { model, Schema } from "mongoose";
 
 export interface VariantI {
     name: String,
-    price: Number
+    price: Number,
+    count: Number
 };
 
 const variantSchema = new Schema<VariantI>({
@@ -16,6 +17,11 @@ const variantSchema = new Schema<VariantI>({
     price: {
         type: Number,
         required: true
+    },
+
+    count: {
+        type: Number,
+        default: 0
     }
 });
 

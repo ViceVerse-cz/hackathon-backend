@@ -1,6 +1,6 @@
 import { Building } from "../schema/building.schema";
+import { isValidObjectId } from "mongoose";
 import { Request, Response } from "express";
-import { isValidObjectId, Schema } from "mongoose";
 
 export const createBuilding = async (req: Request, res: Response) => {
     const newB = new Building(req.body);
@@ -32,6 +32,11 @@ export const fetchBuilding = async (req: Request, res: Response) => {
         message: "Building not found!",
         statusCode: 404
     });
+
+    await building.populate("floors");
+
+    await building.populate("floors.warehouse");
+    await building.populate("floors.shop");
 
     return res.status(200)
         .json({

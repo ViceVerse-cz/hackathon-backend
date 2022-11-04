@@ -8,5 +8,21 @@ export const createFloorValidation = Joi.object({
         }
 
         throw new Error("Invalid building id");
-    })
+    }),
+
+    // Validate only if type is Warehouse
+    warehouse: Joi.object({
+        name: Joi.string().min(2).max(64).required(),
+    }).when("type", {
+        is: "Warehouse",
+        then: Joi.required()
+    }),
+
+    // Validate only if type is Shop
+    shop: Joi.object({
+        name: Joi.string().min(2).max(64).required(),
+    }).when("type", {
+        is: "Shop",
+        then: Joi.required()
+    }),
 });

@@ -15,20 +15,29 @@ export const createFloorService = async (req: Request, res: Response) => {
 
     let newItem: WareHouseI & Document | ShopI & Document;
     if(req.body.type == "Warehouse") {
-        newItem = new Warehouse({});
+        newItem = new Warehouse({
+            name: req.body.warehouse.name
+        });
     } else {
-        newItem = new Shop({});
+        newItem = new Shop({
+            name: req.body.shop.name
+        });
     };
     newItem.save();
 
     const newF = new Floor({
         type: req.body.type,
-        object: newItem._id
+        ...req.body.type == "Warehouse" ? {
+            warehouse: newItem._id
+        } : {
+            shop: newItem._id
+        }
     });
     newF.save();
 
     foundBuilding.floors.push(
-        new Schema.Types.ObjectId(newF._id.toString())
+        // @ts-ignore
+        new Types.ObjectId(newF._id.toString())
     );
     foundBuilding.save();
 

@@ -7,7 +7,8 @@ export enum FloorType {
 
 export interface FloorI {
     type: FloorType,
-    object: Schema.Types.ObjectId
+    shop: Schema.Types.ObjectId,
+    warehouse: Schema.Types.ObjectId
 };
 
 const floorSchema = new Schema<FloorI>({
@@ -16,10 +17,14 @@ const floorSchema = new Schema<FloorI>({
         required: true
     },
 
-    object: {
+    shop: {
         type: Schema.Types.ObjectId,
-        required: true,
-        refPath: "type"
+        ref: "Shop"
+    },
+
+    warehouse: {
+        type: Schema.Types.ObjectId,
+        ref: "Warehouse"
     }
 });
 

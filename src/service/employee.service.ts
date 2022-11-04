@@ -4,6 +4,16 @@ import { hash, compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 
 export const registerUser = async (req: Request, res: Response) => {
+    const found = await Employee.findOne({ email: req.body.email });
+    if(found) { 
+        return res.status(400)
+            .json({
+                statusCode: 400,
+                message: "User with this email already exists!"
+            })
+            .end();
+    };
+
     req.body.password = await hash(req.body.password, 10);
 
     const newE = new Employee(req.body);

@@ -1,5 +1,7 @@
-import Logger from '@ptkdev/logger';
+import swaggerUi from 'swagger-ui-express';
+import swaggerJsDoc from 'swagger-jsdoc';
 import bodyParser from 'body-parser';
+import Logger from '@ptkdev/logger';
 import mongoose from 'mongoose';
 import express from 'express';
 import dotenv from 'dotenv';
@@ -29,6 +31,30 @@ app.use(cors({
 
 app.use(bodyParser.json({ type: 'application/json' }));
 app.use(bodyParser.raw({ type: 'application/vnd.custom-type' }));
+
+// Swagger api documentation configuration
+const swaggerSpec = swaggerJsDoc({
+    swaggerDefinition: {
+        info: {
+            title: 'Hackathon REST API',
+            version: '1.0.0'
+        },
+        host: 'localhost:3000',
+        basePath: './',
+        securityDefinitions: {
+            bearerAuth: {
+                type: 'apiKey',
+                name: 'Authorization',
+                in: 'header',
+            }
+        }
+    },
+    apis: ['./src/controller/*.controller.ts'],
+});
+
+// @ts-ignore
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 
 app.use('/api/warehouse', warehouseRoute);
 app.use('/api/building', buildingRoute);

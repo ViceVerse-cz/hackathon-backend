@@ -3,7 +3,45 @@ import { Building } from "../schema/building.schema";
 import { Shop, ShopI } from "../schema/shop.schema";
 import { Floor } from "../schema/floor.schema";
 import { Request, Response } from "express";
-import { Document, Schema, Types } from "mongoose";
+import { Document, Types } from "mongoose";
+
+export const fetchFloor = async (req: Request, res: Response) => {
+    if(!req.params.id) {
+        return res.status(400).json({
+            message: "Please specify floor id",
+            statusCode: 400
+        })
+        .end();
+    }
+
+    const { id } = req.params;
+    const found = await Floor.findById(id);
+    if(!found) {
+        return res.status(404).json({
+            message: "Floor not found",
+            statusCode: 404
+        })
+        .end();
+    }
+
+    if(found.type === "Warehouse") {
+        await found.populate("warehouse");
+        await found.populate("warehouse.products.product");
+    } else {
+        await found.populate("shop");
+        await found.populate("shop.products.product");
+    }
+
+    return res.status(200)
+        .json({
+            message: "Fetch floor success!",
+            statusCode: 200,
+            data: {
+                floor: found
+            }
+        })
+        .end();
+};
 
 export const createFloorService = async (req: Request, res: Response) => {
     // Find building and check if it exists

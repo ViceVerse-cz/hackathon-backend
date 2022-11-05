@@ -96,7 +96,7 @@ export const createProduct = async (req: Request, res: Response) => {
             const newV = new Variant({
                 name: element.name,
                 price: element.price,
-                count: 0
+                count: element.count
             });
 
             // @ts-ignore

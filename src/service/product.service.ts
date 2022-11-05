@@ -2,6 +2,8 @@ import { Product } from "../schema/product.schema";
 import { Variant } from "../schema/variant.schema";
 import { Request, Response } from "express";
 import { Schema, Types } from "mongoose";
+import { Warehouse } from "../schema/warehouse.schema";
+import { Shop } from "../schema/shop.schema";
 
 export const deleteVariant = async (req: Request, res: Response) => {
     if(!req.params.variantId || !req.params.productId) return res.status(400)
@@ -174,12 +176,42 @@ export const searchProducts = async (req: Request, res: Response) => {
         ]
     }).populate("variants");
 
+    let finalElements = [];
+
+    // Find all warehouse or shops for product
+    for (let index = 0; index < found.length; index++) {
+        const element = found[index];
+
+        // Find all warehouse or shops where element id is in products array in product parameter
+        const foundWarehouse = await Warehouse.find({
+            products: {
+                $elemMatch: {
+                    product: element._id
+                }
+            }
+        }, "name _id");
+
+        const foundShop = await Shop.find({
+            products: {
+                $elemMatch: {
+                    product: element._id
+                }
+            }
+        }, "name _id");
+
+        finalElements.push({
+            product: element,
+            warehouse: foundWarehouse,
+            shop: foundShop
+        });
+    };
+
     return res.status(200)
         .json({
             statusCode: 200,
             message: "Search products success!",
             data: {
-                products: found
+                products: finalElements
             }
         })
         .end();

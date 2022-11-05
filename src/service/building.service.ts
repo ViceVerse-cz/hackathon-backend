@@ -105,3 +105,23 @@ export const fetchBuildings = async (req: Request, res: Response) => {
         })
         .end();
 };
+
+export const fetchBuildingsFloor = async (req: Request, res: Response) => {
+    const buildings = await Building.find({}, { 
+        lat: 1, 
+        long: 1, 
+        name: 1, 
+        state: 1,
+        floors: 1
+    }).populate("floors");
+
+    return res.status(200)
+        .json({
+            statusCode: 200,
+            message: "Fetch buildings success!",
+            data: {
+                buildings: buildings
+            }
+        })
+        .end();
+};

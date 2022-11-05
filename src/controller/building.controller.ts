@@ -6,7 +6,8 @@ import {
     changeBuildingState,
     createBuilding, 
     fetchBuilding, 
-    fetchBuildings 
+    fetchBuildings, 
+    fetchBuildingsFloor
 } from "../service/building.service";
 
 const router = Router();
@@ -30,5 +31,9 @@ router.get("/fetch/:id", async (req, res) => {
 router.get("/fetch", async (req, res) => {
     return fetchBuildings(req, res);
 });
+
+router.get("/fetch-floor", async (req, res) => {
+    return fetchBuildingsFloor(req, res);
+})
 
 export default router;

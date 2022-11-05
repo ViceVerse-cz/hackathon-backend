@@ -172,7 +172,7 @@ export const searchProducts = async (req: Request, res: Response) => {
                 },
             }
         ]
-    });
+    }).populate("variants");
 
     return res.status(200)
         .json({

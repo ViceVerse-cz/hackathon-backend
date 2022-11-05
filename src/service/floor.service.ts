@@ -32,12 +32,31 @@ export const fetchFloor = async (req: Request, res: Response) => {
         await found.populate("shop.products.product");
     }
 
+    let productCount = 0;
+    let productMissing = 0;
+
+    if(found.type === "Warehouse") {
+        for(let i = 0; i < (found.warehouse as any).products.length; i++) {
+            const product = (found.warehouse as any).products[i];
+            productCount += product.quantity;
+            if(product.quantity === 0) productMissing++;
+        }
+    } else {
+        for(let i = 0; i < (found.shop as any).products.length; i++) {
+            const product = (found.shop as any).products[i];
+            productCount += product.quantity;
+            if(product.quantity === 0) productMissing++;
+        }
+    };
+
     return res.status(200)
         .json({
             message: "Fetch floor success!",
             statusCode: 200,
             data: {
-                floor: found
+                floor: found,
+                productCount: productCount,
+                productMissing: productMissing
             }
         })
         .end();

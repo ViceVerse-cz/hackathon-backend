@@ -11,28 +11,6 @@ import {
 
 const router = Router();
 
-
-/**
- * @swagger
- * /api/building/create:
- *   post:
- *     tags:
- *       - Building
- *     summary: Create a new building
- *     parameters:
- *       - in: body
- *         name: body
- *         required: true
- *         schema:
- *           $ref: '#../definitions/building.definition'
- *     responses:
- *       200:
- *         description: OK
- *         schema:
- *           $ref: '#../definitions/building.definition'
- *       400:
- *         description: Invalid input
- */
 router.post("/create", jwtMiddleware, async (req, res) => {
     if(validation(req, res, createBuildingSchema)) {
         return createBuilding(req, res);

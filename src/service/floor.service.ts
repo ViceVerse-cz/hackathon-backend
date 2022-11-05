@@ -27,9 +27,11 @@ export const fetchFloor = async (req: Request, res: Response) => {
     if(found.type === "Warehouse") {
         await found.populate("warehouse");
         await found.populate("warehouse.products.product");
+        await found.populate("warehouse.products.product.variants");
     } else {
         await found.populate("shop");
         await found.populate("shop.products.product");
+        await found.populate("shop.products.product.variants");
     }
 
     let productCount = 0;

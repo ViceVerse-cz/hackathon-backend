@@ -15,5 +15,5 @@ export const addProductValidation = Joi.object({
 
         throw new Error("Invalid product id");
     }),
-    quantity: Joi.number().required().min(1)
+    quantity: Joi.number().optional().min(1)
 });
